@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>PivotTable.js</title>
+
+        <!-- external libs from cdnjs -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+
+
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/pivot.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/pivot.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/d3_renderers.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/c3_renderers.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pivottable/2.19.0/export_renderers.min.js"></script>
+
+        <style>
+            body {font-family: Verdana;}
+            .node {
+              border: solid 1px white;
+              font: 10px sans-serif;
+              line-height: 12px;
+              overflow: hidden;
+              position: absolute;
+              text-indent: 2px;
+            }
+            .c3-line, .c3-focused {stroke-width: 3px !important;}
+            .c3-bar {stroke: white !important; stroke-width: 1;}
+            .c3 text { font-size: 12px; color: grey;}
+            .tick line {stroke: white;}
+            .c3-axis path {stroke: grey;}
+            .c3-circle { opacity: 1 !important; }
+            .c3-xgrid-focus {visibility: hidden !important;}
+        </style>
+    </head>
+    <body>
+        <script type="text/javascript">
+            $(function(){
+                if(window.location != window.parent.location)
+                    $("<a>", {target:"_blank", href:""})
+                        .text("[pop out]").prependTo($("body"));
+
+                $("#output").pivotUI(
+                    $.csv.toArrays($("#output").text()),
+                    $.extend({
+                        renderers: $.extend(
+                            $.pivotUtilities.renderers,
+                            $.pivotUtilities.c3_renderers,
+                            $.pivotUtilities.d3_renderers,
+                            $.pivotUtilities.export_renderers
+                            ),
+                        hiddenAttributes: [""]
+                    }, {})
+                ).show();
+             });
+        </script>
+        <div id="output" style="display: none;">ID,Date,Month,Country,City,Age,AgeRange,Sex,Sit Ups,Chin-ups,Push Ups,Jumping jacks,Pull Ups,Planks,Lunges,WEA
+1,2020-02-18,February,France,Paris,43,35-45,Male,20,60,60,0,20,30,60,250
+2,2020-02-18,February,France,Paris,18,<18,Female,20,60,60,0,20,45,30,235
+3,2020-02-18,February,France,Paris,40,35-45,Male,20,60,60,15,20,40,60,275
+4,2020-02-18,February,France,Paris,28,25-35,Male,0,60,60,20,30,40,45,255
+5,2020-02-18,February,France,Paris,34,25-35,Female,40,60,60,0,45,45,60,310
+6,2020-02-18,February,France,Paris,34,25-35,Female,30,50,60,15,30,40,60,285
+7,2020-02-18,February,France,Paris,29,25-35,Male,40,60,60,20,40,30,60,310
+8,2020-02-18,February,France,Paris,31,25-35,Female,30,50,60,30,40,15,30,255
+9,2020-02-18,February,France,Paris,33,25-35,Female,30,60,60,15,40,30,40,275
+10,2020-03-23,March,France,Paris,45,35-45,Male,30,60,60,20,60,20,60,310
+11,2020-03-23,March,France,Paris,41,35-45,Male,20,60,60,30,60,20,60,310
+12,2020-03-23,March,France,Paris,22,18-25,Female,30,60,60,20,20,20,60,270
+13,2020-03-23,March,France,Paris,32,25-35,Female,20,60,60,20,60,60,60,340
+14,2020-03-23,March,France,Paris,19,18-25,Female,60,60,60,30,60,60,60,390
+15,2020-03-23,March,France,Paris,31,25-35,Male,20,60,60,30,30,60,60,320
+16,2020-03-23,March,France,Paris,31,25-35,Female,30,60,60,40,60,30,60,340
+17,2020-03-23,March,France,Paris,42,35-45,Female,20,60,60,0,40,20,45,245
+18,2020-03-23,March,France,Paris,20,18-25,Female,0,60,60,0,60,30,30,240
+19,2020-03-23,March,France,Paris,20,18-25,Male,15,60,60,20,40,30,60,285
+20,2020-03-23,March,France,Paris,17,<18,Female,20,60,60,0,30,15,30,215
+21,2020-03-23,March,France,Paris,45,35-45,Female,40,60,60,40,60,20,60,340
+22,2020-03-23,March,France,Paris,20,18-25,Female,20,60,60,15,60,0,60,275
+23,2020-04-20,April,France,Paris,28,25-35,Female,60,60,60,20,60,30,60,350
+24,2020-04-20,April,France,Paris,28,25-35,Female,60,60,60,30,60,40,60,370
+25,2020-04-20,April,France,Paris,15,<18,Male,60,60,60,30,60,30,60,360
+26,2020-04-20,April,France,Paris,30,25-35,Female,60,60,60,20,60,30,60,350
+27,2020-04-20,April,France,Paris,18,<18,Female,60,60,60,30,60,60,60,390
+28,2020-04-20,April,France,Paris,20,18-25,Male,60,60,60,30,60,40,60,370
+29,2020-04-20,April,France,Paris,42,35-45,Female,30,60,60,15,30,20,60,275
+30,2020-04-20,April,France,Paris,23,18-25,Male,15,60,60,20,30,20,60,265
+31,2020-04-20,April,France,Paris,23,18-25,Female,20,60,60,15,60,20,60,295
+32,2020-04-20,April,France,Paris,31,25-35,Male,0,60,60,20,30,45,60,275
+33,2020-04-20,April,France,Paris,35,25-35,Female,20,60,60,15,30,20,60,265
+34,2020-02-18,February,France,Paris,29,25-35,Male,0,60,60,0,20,40,30,210
+35,2020-02-18,February,France,Paris,33,25-35,Female,15,60,60,0,30,45,30,240
+36,2020-02-18,February,France,Paris,47,45-55,Female,50,50,60,15,30,20,45,270
+37,2020-02-18,February,France,Paris,39,35-45,Female,40,60,60,15,45,20,40,280
+38,2020-04-20,April,France,Paris,37,35-45,Male,0,60,60,20,30,30,60,260
+39,2020-04-20,April,France,Paris,24,18-25,Female,60,60,60,20,60,40,60,360
+40,2020-03-15,March,Italy,Rome,30,25-35,Male,30,60,60,30,60,45,60,345
+41,2020-03-15,March,Italy,Rome,33,25-35,Male,20,60,60,30,60,15,30,275
+42,2020-03-15,March,Italy,Rome,34,25-35,Male,40,60,60,20,60,15,50,305
+43,2020-03-15,March,Italy,Rome,58,65+,Female,60,60,60,45,60,30,60,375
+44,2020-03-15,March,Italy,Rome,44,35-45,Male,60,60,60,40,45,40,60,365
+45,2020-03-15,March,Italy,Rome,23,18-25,Male,40,60,60,60,60,20,60,360
+46,2020-03-15,March,Italy,Rome,41,35-45,Female,60,60,60,60,60,30,60,390
+47,2020-03-15,March,Italy,Rome,42,35-45,Female,30,60,60,45,40,20,40,295
+48,2020-04-01,April,Italy,Rome,25,18-25,Male,60,60,60,0,60,20,60,320
+49,2020-04-01,April,Italy,Rome,39,35-45,Female,40,60,60,40,30,20,60,310
+50,2020-04-01,April,Italy,Rome,35,25-35,Male,60,60,60,60,60,30,60,390
+51,2020-04-01,April,Italy,Rome,32,25-35,Female,30,60,60,20,30,60,40,300
+52,2020-04-01,April,Italy,Rome,39,35-45,Male,30,60,60,40,20,20,30,260
+53,2020-04-01,April,Italy,Rome,37,35-45,Female,20,60,60,0,60,30,60,290
+54,2020-04-01,April,Italy,Rome,37,35-45,Female,20,60,60,15,30,20,30,235
+55,2020-04-01,April,Italy,Rome,29,25-35,Male,30,60,60,60,60,60,60,390
+56,2020-04-01,April,Italy,Rome,61,65+,Female,60,60,60,60,30,60,60,390
+57,2020-04-01,April,Italy,Rome,48,45-55,Male,20,60,60,60,60,40,60,360
+58,2020-04-01,April,Italy,Rome,49,45-55,Male,30,60,60,60,60,30,60,360
+59,2020-04-07,April,Italy,Rome,51,45-55,Male,20,60,60,20,20,20,60,260
+60,2020-04-07,April,Italy,Rome,33,25-35,Female,0,60,60,0,20,15,60,215
+61,2020-04-07,April,Italy,Rome,30,25-35,Male,15,60,60,15,20,15,60,245
+62,2020-04-07,April,Italy,Rome,27,25-35,Female,30,60,60,30,40,30,60,310
+63,2020-04-07,April,Italy,Rome,67,65+,Female,30,60,60,20,45,40,60,315
+64,2020-04-07,April,Italy,Rome,57,65+,Male,20,60,60,20,45,30,60,295
+65,2020-04-07,April,Italy,Rome,71,65+,Male,30,60,60,20,40,0,40,250
+66,2020-04-07,April,Italy,Rome,42,35-45,Male,60,60,60,60,60,30,60,390
+67,2020-04-07,April,Italy,Rome,34,25-35,Male,0,60,60,60,30,60,50,320
+68,2020-04-07,April,Italy,Rome,27,25-35,Female,45,60,60,15,50,40,60,330
+69,2020-04-07,April,Italy,Rome,24,18-25,Female,30,60,60,30,60,20,60,320
+70,2020-04-07,April,Italy,Rome,20,18-25,Female,40,60,60,20,40,15,60,295
+71,2020-04-07,April,Italy,Rome,36,35-45,Male,30,60,60,60,60,20,60,350
+72,2020-04-07,April,Italy,Rome,17,<18,Male,40,60,60,20,60,0,60,300
+73,2020-04-07,April,Italy,Rome,15,<18,Female,40,60,60,30,60,15,60,325
+74,2020-04-07,April,Italy,Rome,43,35-45,Female,15,40,60,0,30,20,30,195
+75,2020-04-07,April,Italy,Rome,28,25-35,Male,40,60,60,30,40,20,60,310
+76,2020-04-19,April,Italy,Rome,33,25-35,Female,30,60,60,15,40,50,60,315
+77,2020-04-19,April,Italy,Rome,19,18-25,Female,15,60,60,0,60,40,45,280
+78,2020-04-19,April,Italy,Rome,47,45-55,Female,45,60,60,15,60,20,60,320
+79,2020-04-19,April,Italy,Rome,41,35-45,Male,30,60,60,0,40,30,60,280
+80,2020-04-19,April,Italy,Rome,45,35-45,Male,20,60,60,20,30,0,30,220
+81,2020-04-19,April,Italy,Rome,34,25-35,Female,30,60,60,20,40,20,30,260
+82,2020-04-19,April,Italy,Rome,28,25-35,Male,30,60,60,30,30,20,20,250
+83,2020-04-19,April,Italy,Rome,19,18-25,Female,30,60,60,30,45,20,40,285
+84,2020-04-19,April,Italy,Rome,36,35-45,Male,15,60,60,20,40,30,60,285
+85,2020-04-19,April,Italy,Rome,35,25-35,Female,20,60,60,60,60,15,60,335
+86,2020-04-19,April,Italy,Rome,45,35-45,Female,40,60,60,20,60,15,60,315
+87,2020-04-19,April,Italy,Rome,28,25-35,Male,30,60,60,30,60,40,60,340
+88,2020-04-19,April,Italy,Rome,37,35-45,Female,30,60,60,0,30,40,20,240
+89,2020-04-19,April,Italy,Rome,55,45-55,Male,45,60,60,40,45,30,60,340
+90,2020-04-19,April,Italy,Rome,44,35-45,Male,30,60,60,30,40,40,45,305
+91,2020-04-19,April,Italy,Rome,38,35-45,Male,30,60,60,20,50,45,60,325
+92,2020-04-19,April,Italy,Rome,41,35-45,Female,40,60,60,60,40,40,60,360
+93,2020-03-15,March,Italy,Rome,64,65+,Male,45,60,60,60,60,30,60,375
+94,2020-04-01,April,Italy,Rome,34,25-35,Female,45,60,60,60,60,30,60,375
+95,2020-04-01,April,Italy,Rome,64,65+,Male,20,60,60,30,30,20,60,280
+96,2020-04-07,April,Italy,Rome,53,45-55,Male,20,60,60,60,45,40,60,345
+97,2020-04-07,April,Italy,Rome,53,45-55,Female,30,60,60,40,40,30,60,320
+98,2020-04-07,April,Italy,Rome,73,65+,Male,60,40,60,15,30,20,45,270
+99,2020-04-07,April,Italy,Rome,59,65+,Female,20,60,60,20,40,30,60,290
+100,2020-04-19,April,Italy,Rome,46,45-55,Male,30,60,60,30,40,20,40,280
+101,2020-04-19,April,Italy,Rome,52,45-55,Male,30,60,60,45,60,45,60,360
+102,2020-04-07,April,Italy,Rome,24,18-25,Female,30,60,60,40,30,20,60,300
+103,2020-02-19,February,Spain,Valencia,28,25-35,Female,40,60,60,15,40,40,40,295
+104,2020-02-19,February,Spain,Valencia,34,25-35,Male,50,60,60,20,30,20,45,285
+105,2020-02-19,February,Spain,Valencia,43,35-45,Female,40,60,60,20,30,15,50,275
+106,2020-02-19,February,Spain,Valencia,42,35-45,Female,15,60,60,15,0,15,15,180
+107,2020-02-19,February,Spain,Valencia,58,65+,Male,45,60,60,0,0,30,20,215
+108,2020-02-19,February,Spain,Valencia,27,25-35,Female,20,60,60,15,45,50,45,295
+109,2020-02-19,February,Spain,Valencia,46,45-55,Female,30,60,60,15,60,45,60,330
+110,2020-02-19,February,Spain,Valencia,27,25-35,Male,30,60,60,15,45,50,45,305
+111,2020-03-16,March,Spain,Valencia,38,35-45,Female,20,50,60,30,40,45,50,295
+112,2020-03-16,March,Spain,Valencia,33,25-35,Female,40,60,60,0,20,30,60,270
+113,2020-03-16,March,Spain,Valencia,17,<18,Male,20,45,60,0,30,30,60,245
+114,2020-03-16,March,Spain,Valencia,28,25-35,Female,20,60,60,15,40,20,60,275
+115,2020-03-16,March,Spain,Valencia,33,25-35,Male,40,60,60,15,40,45,45,305
+116,2020-03-16,March,Spain,Valencia,56,65+,Male,30,60,60,15,50,45,60,320
+117,2020-03-16,March,Spain,Valencia,43,35-45,Male,45,60,60,20,45,45,45,320
+118,2020-03-16,March,Spain,Valencia,43,35-45,Female,45,60,60,15,45,40,45,310
+119,2020-03-18,March,Spain,Valencia,21,18-25,Female,30,60,60,15,40,45,60,310
+120,2020-03-18,March,Spain,Valencia,34,25-35,Male,20,60,60,15,45,45,45,290
+121,2020-03-18,March,Spain,Valencia,17,<18,Female,20,60,60,15,40,45,40,280
+122,2020-03-18,March,Spain,Valencia,53,45-55,Male,20,60,60,15,40,45,45,285
+123,2020-03-16,March,Spain,Valencia,27,25-35,Female,30,60,60,15,30,0,60,255
+124,2020-03-16,March,Spain,Valencia,53,45-55,Male,15,60,60,30,40,30,45,280
+125,2020-03-16,March,Spain,Valencia,33,25-35,Female,40,60,60,0,30,60,30,280
+126,2020-03-18,March,Spain,Valencia,32,25-35,Male,40,60,60,20,45,60,60,345
+127,2020-03-18,March,Spain,Valencia,30,25-35,Female,0,60,60,0,30,60,60,270
+128,2020-03-18,March,Spain,Valencia,52,45-55,Male,0,60,60,0,30,60,40,250
+129,2020-03-18,March,Spain,Valencia,25,18-25,Male,30,60,60,40,20,60,60,330
+130,2020-03-25,March,Spain,Valencia,38,35-45,Male,20,60,60,0,40,60,60,300
+131,2020-03-25,March,Spain,Valencia,23,18-25,Female,15,60,60,15,40,30,60,280
+132,2020-03-25,March,Spain,Valencia,45,35-45,Female,30,60,60,15,15,60,60,300
+133,2020-03-25,March,Spain,Valencia,22,18-25,Male,20,60,60,0,30,60,60,290
+134,2020-03-25,March,Spain,Valencia,28,25-35,Female,20,60,60,20,40,45,60,305
+135,2020-04-06,April,Spain,Valencia,34,25-35,Male,20,60,60,15,30,40,45,270
+136,2020-04-06,April,Spain,Valencia,28,25-35,Female,15,60,60,0,0,60,20,215
+137,2020-04-06,April,Spain,Valencia,37,35-45,Male,20,60,60,20,30,20,50,260
+138,2020-03-16,March,Spain,Valencia,38,35-45,Female,45,60,60,15,15,20,20,235
+139,2020-04-06,April,Spain,Valencia,57,65+,Male,20,30,60,30,20,15,60,235
+140,2020-03-25,March,Spain,Valencia,52,45-55,Male,40,60,60,15,30,45,45,295
+141,2020-03-25,March,Spain,Valencia,40,35-45,Female,40,60,60,15,30,45,30,280
+142,2020-03-25,March,Spain,Valencia,31,25-35,Female,45,60,60,15,15,30,40,265
+143,2020-04-06,April,Spain,Valencia,20,18-25,Male,20,60,60,0,15,30,30,215
+144,2020-04-06,April,Spain,Valencia,31,25-35,Male,30,60,60,15,20,30,30,245
+145,2020-04-06,April,Spain,Valencia,37,35-45,Female,40,60,60,30,20,40,20,270
+146,2020-04-06,April,Spain,Valencia,42,35-45,Male,20,60,60,0,15,20,20,195
+147,2020-04-06,April,Spain,Valencia,37,35-45,Female,30,60,60,15,45,45,50,305
+148,2020-04-06,April,Spain,Valencia,33,25-35,Male,20,60,60,15,40,40,45,280
+149,2020-04-06,April,Spain,Valencia,29,25-35,Male,30,60,60,15,40,45,40,290
+150,2020-04-06,April,Spain,Valencia,35,25-35,Female,30,60,60,20,45,45,45,305
+151,2020-04-07,April,Spain,Valencia,43,35-45,Male,30,60,60,15,40,45,40,290
+152,2020-04-07,April,Spain,Valencia,30,25-35,Female,20,60,60,15,40,40,45,280
+153,2020-02-19,February,Spain,Valencia,35,25-35,Female,45,60,60,0,30,40,30,265
+154,2020-02-19,February,Spain,Valencia,37,35-45,Female,30,60,60,0,30,15,30,225
+155,2020-02-19,February,Spain,Valencia,46,45-55,Male,30,60,60,15,45,40,30,280
+156,2020-03-16,March,Spain,Valencia,36,35-45,Female,30,60,60,15,45,30,60,300
+157,2020-03-16,March,Spain,Valencia,58,65+,Male,20,60,60,15,15,45,30,245
+158,2020-03-18,March,Spain,Valencia,40,35-45,Female,30,60,60,0,20,15,40,225
+159,2020-03-25,March,Spain,Valencia,46,45-55,Male,20,60,60,15,30,45,60,290
+160,2020-04-06,April,Spain,Valencia,36,35-45,Female,40,60,60,15,20,30,30,255
+161,2020-04-06,April,Spain,Valencia,46,45-55,Female,40,60,60,15,15,30,20,240
+162,2020-04-06,April,Spain,Valencia,63,65+,Male,20,20,60,15,30,15,60,220
+163,2020-04-06,April,Spain,Valencia,50,45-55,Female,20,60,60,15,40,20,45,260
+164,2020-03-16,March,Spain,Valencia,38,35-45,Female,40,60,60,40,20,40,40,300
+165,2020-04-06,April,Spain,Valencia,30,25-35,Female,20,45,60,40,40,30,60,295
+166,2020-03-16,March,Spain,Valencia,47,45-55,Female,40,60,60,30,30,45,30,295
+167,2020-04-06,April,Spain,Valencia,42,35-45,Female,30,60,60,20,30,40,30,270
+168,2020-03-16,March,Spain,Valencia,41,35-45,Male,40,60,60,30,30,45,20,285
+169,2020-04-06,April,Spain,Valencia,72,65+,Male,15,20,60,0,30,15,60,200
+170,2020-03-25,March,Spain,Valencia,39,35-45,Female,45,60,60,30,30,45,40,310
+171,2020-04-06,April,Spain,Valencia,44,35-45,Male,30,60,60,20,30,50,40,290
+172,2020-03-25,March,Spain,Valencia,47,45-55,Female,40,60,60,15,20,40,30,265
+173,2020-04-06,April,Spain,Valencia,36,35-45,Male,20,60,60,15,30,30,40,255
+174,2020-02-19,February,Spain,Valencia,43,35-45,Male,40,60,60,15,40,40,30,285
+175,2020-04-06,April,Spain,Valencia,64,65+,Female,30,60,60,20,20,40,30,260
+176,2020-04-06,April,Spain,Valencia,34,25-35,Male,30,60,60,20,20,30,30,250
+177,2020-04-13,April,Spain,Madrid,47,45-55,Male,20,60,60,30,15,60,30,275
+178,2020-03-01,March,Spain,Madrid,60,65+,Female,30,60,60,20,30,60,60,320
+179,2020-03-01,March,Spain,Madrid,37,35-45,Female,45,60,60,20,40,45,60,330
+180,2020-03-01,March,Spain,Madrid,29,25-35,Male,20,60,60,15,60,30,60,305
+181,2020-03-01,March,Spain,Madrid,35,25-35,Male,20,60,60,20,30,50,45,285
+182,2020-03-01,March,Spain,Madrid,31,25-35,Female,40,45,60,20,30,15,60,270
+183,2020-03-01,March,Spain,Madrid,25,18-25,Female,20,45,60,15,30,50,20,240
+184,2020-03-01,March,Spain,Madrid,38,35-45,Male,20,60,60,15,40,50,45,290
+185,2020-03-01,March,Spain,Madrid,26,25-35,Female,50,60,60,20,50,45,60,345
+186,2020-03-31,March,Spain,Madrid,40,35-45,Male,30,60,60,0,40,60,40,290
+187,1924-02-26,February,Spain,Madrid,19,18-25,Female,30,45,60,30,40,20,60,285
+188,1924-02-26,February,Spain,Madrid,46,45-55,Female,30,60,60,15,30,40,60,295
+189,1924-02-26,February,Spain,Madrid,37,35-45,Female,40,60,60,20,15,50,45,290
+190,1924-02-26,February,Spain,Madrid,23,18-25,Male,20,60,60,15,30,45,60,290
+191,2020-03-30,March,Spain,Madrid,36,35-45,Female,20,60,60,0,40,45,45,270
+192,2020-03-30,March,Spain,Madrid,26,25-35,Male,30,60,60,15,45,45,60,315
+193,2020-03-30,March,Spain,Madrid,36,35-45,Female,30,60,60,20,40,50,45,305
+194,2020-03-30,March,Spain,Madrid,33,25-35,Male,20,60,60,15,40,45,40,280
+195,2020-04-13,April,Spain,Madrid,36,35-45,Female,30,60,60,15,15,30,30,240
+196,2020-04-13,April,Spain,Madrid,37,35-45,Male,30,60,60,15,15,40,30,250
+197,2020-04-13,April,Spain,Madrid,31,25-35,Female,40,60,60,0,60,15,60,295
+198,2020-04-13,April,Spain,Madrid,38,35-45,Male,20,60,60,30,45,40,60,315
+199,2020-04-13,April,Spain,Madrid,31,25-35,Female,40,60,60,20,40,15,60,295
+200,2020-04-13,April,Spain,Madrid,30,25-35,Male,30,45,60,15,30,20,60,260
+201,2020-04-13,April,Spain,Madrid,50,45-55,Female,30,60,60,15,40,45,40,290
+202,2020-04-13,April,Spain,Madrid,40,35-45,Male,30,60,60,20,40,40,60,310
+203,2020-04-13,April,Spain,Madrid,44,35-45,Female,30,60,60,15,40,40,45,290
+204,2020-03-01,March,Spain,Madrid,65,65+,Male,60,60,60,60,15,45,60,360
+205,2020-03-01,March,Spain,Madrid,49,45-55,Female,15,60,60,15,15,60,20,245
+206,2020-03-01,March,Spain,Madrid,40,35-45,Male,20,60,60,0,45,50,30,265
+207,2020-03-01,March,Spain,Madrid,53,45-55,Female,30,60,60,40,45,30,30,295
+208,2020-03-01,March,Spain,Madrid,62,65+,Male,30,60,60,15,40,40,50,295
+209,2020-03-01,March,Spain,Madrid,43,35-45,Female,40,60,60,20,50,40,50,320
+210,2020-03-31,March,Spain,Madrid,31,25-35,Female,15,60,60,15,15,60,30,255
+211,2020-03-31,March,Spain,Madrid,19,18-25,Female,15,60,60,20,15,60,60,290
+212,1924-02-26,February,Spain,Madrid,28,25-35,Female,40,60,60,15,45,15,60,295
+213,1924-02-26,February,Spain,Madrid,37,35-45,Male,40,60,60,20,40,45,40,305
+214,2020-03-30,March,Spain,Madrid,43,35-45,Female,20,60,60,15,45,45,50,295
+215,2020-04-13,April,Spain,Madrid,60,65+,Female,20,60,60,15,20,20,20,215
+216,2020-04-13,April,Spain,Madrid,65,65+,Male,20,60,60,0,15,30,20,205
+217,2020-04-13,April,Spain,Madrid,53,45-55,Male,30,45,60,15,20,40,30,240
+218,2020-04-13,April,Spain,Madrid,75,65+,Female,30,60,60,15,40,45,45,295
+219,2020-02-18,February,Spain,Barcelona,30,25-35,Male,60,60,60,30,60,20,60,350
+220,2020-02-18,February,Spain,Barcelona,31,25-35,Female,60,60,60,60,20,45,60,365
+221,2020-02-18,February,Spain,Barcelona,57,65+,Male,60,60,60,60,45,60,60,405
+222,2019-02-18,February,Spain,Barcelona,30,25-35,Male,20,60,60,60,45,20,45,310
+223,2020-02-18,February,Spain,Barcelona,21,18-25,Female,30,60,60,30,30,30,60,300
+224,2020-02-18,February,Spain,Barcelona,28,25-35,Male,60,60,60,20,60,60,60,380
+225,2020-02-18,February,Spain,Barcelona,45,35-45,Male,60,60,60,20,40,30,60,330
+226,2020-02-18,February,Spain,Barcelona,31,25-35,Male,60,60,60,40,40,20,60,340
+227,2020-02-18,February,Spain,Barcelona,40,35-45,Female,40,60,60,40,30,30,60,320
+228,2020-02-18,February,Spain,Barcelona,36,35-45,Male,30,60,60,20,30,20,60,280
+229,2020-02-18,February,Spain,Barcelona,30,25-35,Male,60,60,60,20,60,30,60,350
+230,2020-02-18,February,Spain,Barcelona,31,25-35,Female,30,60,60,15,40,15,60,280
+231,2020-02-18,February,Spain,Barcelona,30,25-35,Male,30,60,60,20,30,30,60,290
+232,2020-02-18,February,Spain,Barcelona,37,35-45,Male,60,60,60,30,45,40,60,355
+233,2020-02-18,February,Spain,Barcelona,51,45-55,Female,45,60,60,15,20,60,60,320
+234,2020-02-18,February,Spain,Barcelona,25,18-25,Male,60,60,60,20,60,40,60,360
+235,2020-02-18,February,Spain,Barcelona,47,45-55,Female,60,60,60,30,60,60,60,390
+236,2020-02-18,February,Spain,Barcelona,18,<18,Male,60,60,60,40,60,60,60,400
+237,2020-03-23,March,Spain,Barcelona,50,45-55,Female,0,60,60,0,30,20,60,230
+238,2020-03-23,March,Spain,Barcelona,37,35-45,Male,60,60,60,20,60,15,60,335
+239,2020-03-23,March,Spain,Barcelona,15,<18,Male,0,60,60,0,20,30,60,230
+240,2020-03-23,March,Spain,Barcelona,44,35-45,Female,30,60,60,20,60,60,30,320
+241,2020-03-23,March,Spain,Barcelona,62,65+,Male,15,60,60,30,60,20,0,245
+242,2020-03-24,March,Spain,Barcelona,18,<18,Male,15,60,60,20,60,20,60,295
+243,2020-03-24,March,Spain,Barcelona,53,45-55,Male,20,60,60,0,60,0,60,260
+244,2020-03-24,March,Spain,Barcelona,34,25-35,Female,0,60,60,0,30,20,30,200
+245,2020-03-23,March,Spain,Barcelona,33,25-35,Male,60,60,60,15,30,45,30,300
+246,2020-03-23,March,Spain,Barcelona,30,25-35,Male,40,60,60,50,60,60,30,360
+247,2020-03-23,March,Spain,Barcelona,28,25-35,Male,30,60,60,15,30,30,50,275
+248,2020-03-23,March,Spain,Barcelona,42,35-45,Male,60,60,60,20,30,40,60,330
+249,2020-03-23,March,Spain,Barcelona,25,18-25,Female,30,60,60,20,60,40,60,330
+250,2020-03-23,March,Spain,Barcelona,25,18-25,Male,20,60,60,20,40,20,60,280
+251,2020-03-23,March,Spain,Barcelona,22,18-25,Female,60,60,60,60,60,30,60,390
+252,2020-03-23,March,Spain,Barcelona,50,45-55,Female,60,60,60,15,40,60,60,355
+253,2020-03-24,March,Spain,Barcelona,40,35-45,Male,15,60,60,15,15,50,60,275
+254,2020-03-24,March,Spain,Barcelona,15,<18,Male,60,60,60,60,60,40,40,380
+255,2020-04-22,April,Spain,Barcelona,38,35-45,Female,30,60,60,15,50,20,45,280
+256,2020-04-22,April,Spain,Barcelona,47,45-55,Male,45,60,60,40,50,30,30,315
+257,2020-04-22,April,Spain,Barcelona,34,25-35,Male,60,60,60,20,60,40,40,340
+258,2015-02-04,February,Spain,Barcelona,53,45-55,Male,20,60,60,20,40,20,60,280
+259,2015-02-04,February,Spain,Barcelona,49,45-55,Female,60,60,60,30,60,15,60,345
+260,2015-02-04,February,Spain,Barcelona,16,<18,Male,20,60,60,0,30,15,60,245
+261,2015-02-05,February,Spain,Barcelona,47,45-55,Female,40,60,60,40,40,20,60,320
+262,2015-02-05,February,Spain,Barcelona,26,25-35,Male,20,60,60,20,30,45,60,295
+263,2015-02-05,February,Spain,Barcelona,17,<18,Female,20,60,60,20,40,45,45,290
+264,2020-04-21,April,Spain,Barcelona,59,65+,Male,20,60,60,0,60,40,60,300
+265,2020-04-21,April,Spain,Barcelona,40,35-45,Female,30,60,60,15,60,60,60,345
+266,2020-04-21,April,Spain,Barcelona,57,65+,Male,20,60,60,15,30,30,60,275
+267,2020-04-21,April,Spain,Barcelona,31,25-35,Female,30,60,60,0,60,20,60,290
+268,2020-04-21,April,Spain,Barcelona,40,35-45,Male,20,60,60,0,60,40,60,300
+269,2020-04-21,April,Spain,Barcelona,50,45-55,Male,20,60,60,0,60,20,60,280
+270,2020-04-22,April,Spain,Barcelona,23,18-25,Female,30,60,60,30,60,20,60,320
+271,2020-04-22,April,Spain,Barcelona,21,18-25,Male,20,60,60,0,30,20,60,250
+272,2020-04-22,April,Spain,Barcelona,30,25-35,Female,60,60,60,15,40,15,20,270
+273,2020-04-22,April,Spain,Barcelona,19,18-25,Male,30,60,60,40,60,20,60,330
+274,2020-04-22,April,Spain,Barcelona,49,45-55,Female,15,60,60,0,60,0,60,255
+275,2020-02-18,February,Spain,Barcelona,30,25-35,Male,60,60,60,0,0,60,60,300
+276,2020-02-18,February,Spain,Barcelona,43,35-45,Male,30,60,60,30,0,20,60,260
+277,2020-02-18,February,Spain,Barcelona,50,45-55,Female,60,60,60,30,15,0,60,285
+278,2020-02-18,February,Spain,Barcelona,40,35-45,Male,60,60,60,20,40,15,60,315
+279,2020-02-18,February,Spain,Barcelona,42,35-45,Female,30,60,60,20,50,40,60,320
+280,2020-02-18,February,Spain,Barcelona,32,25-35,Female,60,60,60,20,40,20,60,320
+281,2020-03-23,March,Spain,Barcelona,65,65+,Female,60,60,60,40,40,20,60,340
+282,2020-03-23,March,Spain,Barcelona,52,45-55,Female,40,60,60,15,15,15,60,265
+283,2020-03-23,March,Spain,Barcelona,50,45-55,Male,40,60,60,20,60,40,60,340
+284,2020-03-24,March,Spain,Barcelona,45,35-45,Female,40,60,60,40,60,40,40,340
+285,2020-04-22,April,Spain,Barcelona,31,25-35,Male,40,60,60,0,0,45,0,205
+286,2020-04-22,April,Spain,Barcelona,59,65+,Female,45,60,60,15,45,20,60,305
+287,2020-04-22,April,Spain,Barcelona,34,25-35,Female,60,60,60,20,15,30,60,305
+288,2015-02-04,February,Spain,Barcelona,35,25-35,Male,60,60,60,15,40,30,60,325
+289,2015-02-05,February,Spain,Barcelona,30,25-35,Female,15,60,60,0,20,30,60,245
+290,2015-02-05,February,Spain,Barcelona,33,25-35,Female,20,60,60,20,45,30,60,295
+291,2020-03-23,March,Spain,Barcelona,51,45-55,Male,30,60,60,30,40,60,60,340
+292,2020-02-25,February,Germany,Munich,25,18-25,Female,20,60,60,20,30,0,60,250
+293,2020-03-31,March,Germany,Munich,44,35-45,Female,45,60,60,20,15,20,60,280
+294,2020-02-23,February,Germany,Munich,35,25-35,Female,15,60,60,30,20,0,60,245
+295,2020-02-23,February,Germany,Munich,30,25-35,Male,30,60,60,0,40,0,30,220
+296,2020-02-23,February,Germany,Munich,27,25-35,Female,60,60,60,0,30,30,40,280
+297,2020-02-23,February,Germany,Munich,67,65+,Female,60,60,60,20,60,20,30,310
+298,2020-02-23,February,Germany,Munich,31,25-35,Female,30,60,60,30,60,45,45,330
+299,2020-02-23,February,Germany,Munich,30,25-35,Female,20,60,60,0,20,20,40,220
+300,2020-02-23,February,Germany,Munich,35,25-35,Female,60,60,60,15,60,15,60,330
+301,2020-02-23,February,Germany,Munich,46,45-55,Female,20,60,60,0,40,20,60,260
+302,2020-02-24,February,Germany,Munich,45,35-45,Male,15,60,60,0,15,15,40,205
+303,2020-02-24,February,Germany,Munich,46,45-55,Female,60,60,60,0,20,50,60,310
+304,2020-02-24,February,Germany,Munich,30,25-35,Female,60,60,60,0,20,0,45,245
+305,2020-02-24,February,Germany,Munich,23,18-25,Female,40,60,60,0,0,0,60,220
+306,2020-02-25,February,Germany,Munich,27,25-35,Female,20,60,60,20,15,20,60,255
+307,2020-02-25,February,Germany,Munich,45,35-45,Male,60,60,60,15,30,30,60,315
+308,2020-02-24,February,Germany,Munich,22,18-25,Female,30,60,60,15,60,20,60,305
+309,2020-02-24,February,Germany,Munich,26,25-35,Male,15,60,60,0,0,20,60,215
+310,2020-02-24,February,Germany,Munich,35,25-35,Female,30,60,60,20,60,30,60,320
+311,2020-02-25,February,Germany,Munich,38,35-45,Male,0,60,60,0,20,30,60,230
+312,2020-02-25,February,Germany,Munich,41,35-45,Male,40,60,60,0,20,0,60,240
+313,2020-02-23,February,Germany,Munich,18,<18,Male,40,60,60,0,0,15,60,235
+314,2020-02-23,February,Germany,Munich,40,35-45,Female,0,60,60,0,30,30,60,240
+315,2020-02-23,February,Germany,Munich,36,35-45,Female,15,60,60,15,0,20,60,230
+316,2020-02-24,February,Germany,Munich,32,25-35,Female,15,60,60,15,20,15,60,245
+317,2020-02-24,February,Germany,Munich,32,25-35,Female,0,60,60,0,0,20,60,200
+318,2020-02-24,February,Germany,Munich,37,35-45,Female,20,60,60,0,30,15,60,245
+319,2020-02-24,February,Germany,Munich,37,35-45,Female,20,60,60,20,45,15,60,280
+320,2020-02-25,February,Germany,Munich,15,<18,Female,15,60,60,30,40,0,60,265
+321,2020-02-25,February,Germany,Munich,34,25-35,Female,15,60,60,15,20,0,60,230
+322,2020-02-25,February,Germany,Munich,22,18-25,Female,20,60,60,0,30,15,60,245
+323,2020-03-29,March,Germany,Munich,29,25-35,Male,60,60,60,40,45,20,60,345
+324,2020-03-29,March,Germany,Munich,22,18-25,Female,60,60,60,0,0,0,60,240
+325,2020-03-29,March,Germany,Munich,30,25-35,Female,30,60,60,20,15,15,60,260
+326,2020-03-29,March,Germany,Munich,15,<18,Female,15,60,60,15,20,20,60,250
+327,2020-03-29,March,Germany,Munich,27,25-35,Female,15,60,60,15,30,20,60,260
+328,2020-03-30,March,Germany,Munich,31,25-35,Female,40,60,60,0,60,0,60,280
+329,2020-03-30,March,Germany,Munich,21,18-25,Female,30,60,60,20,30,20,60,280
+330,2020-03-30,March,Germany,Munich,23,18-25,Male,15,60,60,20,15,15,60,245
+331,2020-03-30,March,Germany,Munich,42,35-45,Female,30,60,60,15,60,15,60,300
+332,2020-03-31,March,Germany,Munich,24,18-25,Female,50,60,60,40,15,30,60,315
+333,2020-03-31,March,Germany,Munich,17,<18,Male,15,60,60,0,60,0,60,255
+334,2020-03-31,March,Germany,Munich,43,35-45,Female,40,60,60,0,45,0,30,235
+335,2020-03-31,March,Germany,Munich,28,25-35,Female,60,60,60,0,60,0,0,240
+336,2020-03-30,March,Germany,Munich,45,35-45,Female,20,60,60,15,30,30,60,275
+337,2020-03-30,March,Germany,Munich,38,35-45,Female,60,60,60,15,60,30,60,345
+338,2020-03-30,March,Germany,Munich,32,25-35,Female,20,60,60,15,40,20,60,275
+339,2020-03-30,March,Germany,Munich,35,25-35,Female,15,60,60,0,60,15,60,270
+340,2020-03-31,March,Germany,Munich,47,45-55,Female,60,60,60,0,60,15,60,315
+341,2020-03-31,March,Germany,Munich,34,25-35,Female,20,60,60,30,20,60,30,280
+342,2020-03-31,March,Germany,Munich,27,25-35,Female,15,60,60,0,20,20,60,235
+343,2020-03-31,March,Germany,Munich,37,35-45,Female,20,60,60,30,60,15,60,305
+344,2020-03-31,March,Germany,Munich,24,18-25,Male,15,60,60,15,30,20,60,260
+345,2020-03-31,March,Germany,Munich,35,25-35,Female,30,60,60,20,15,15,60,260
+346,2020-03-29,March,Germany,Munich,39,35-45,Male,60,60,60,15,30,15,60,300
+347,2020-03-29,March,Germany,Munich,34,25-35,Female,60,60,60,30,20,15,60,305
+348,2020-03-29,March,Germany,Munich,25,18-25,Male,20,60,60,60,40,15,60,315
+349,2020-03-29,March,Germany,Munich,32,25-35,Female,60,60,60,15,30,20,60,305
+350,2020-03-29,March,Germany,Munich,35,25-35,Male,60,60,60,15,30,20,60,305
+351,2020-04-19,April,Germany,Munich,26,25-35,Male,0,60,60,0,0,60,60,240
+352,2020-04-19,April,Germany,Munich,24,18-25,Male,20,60,60,15,30,15,60,260
+353,2020-04-19,April,Germany,Munich,28,25-35,Female,20,60,60,20,0,15,60,235
+354,2020-04-19,April,Germany,Munich,30,25-35,Male,15,60,60,0,0,0,60,195
+355,2020-04-19,April,Germany,Munich,28,25-35,Male,0,60,60,20,0,15,60,215
+356,2020-04-19,April,Germany,Munich,25,18-25,Female,30,60,60,0,60,30,60,300
+357,2020-04-19,April,Germany,Munich,25,18-25,Female,40,60,60,0,0,40,60,260
+358,2020-04-19,April,Germany,Munich,23,18-25,Female,20,60,60,0,45,20,60,265
+359,2020-04-19,April,Germany,Munich,23,18-25,Female,45,60,60,0,60,60,60,345
+360,2020-04-20,April,Germany,Munich,35,25-35,Female,60,60,60,30,30,15,60,315
+361,2020-04-20,April,Germany,Munich,36,35-45,Female,60,60,60,0,60,20,60,320
+362,2020-04-20,April,Germany,Munich,27,25-35,Female,20,60,60,0,0,40,60,240
+363,2020-04-20,April,Germany,Munich,22,18-25,Female,30,60,60,15,30,30,60,285
+364,2020-04-20,April,Germany,Munich,20,18-25,Female,20,60,60,0,60,0,60,260
+365,2020-04-20,April,Germany,Munich,41,35-45,Female,15,60,60,0,30,20,60,245
+366,2020-04-20,April,Germany,Munich,25,18-25,Male,40,60,60,0,15,0,60,235
+367,2020-04-21,April,Germany,Munich,33,25-35,Male,60,60,60,20,60,20,60,340
+368,2020-04-21,April,Germany,Munich,34,25-35,Female,40,60,60,0,60,60,60,340
+369,2020-04-21,April,Germany,Munich,55,45-55,Male,60,60,60,20,20,0,60,280
+370,2020-04-21,April,Germany,Munich,24,18-25,Female,60,60,60,60,60,0,60,360
+371,2020-04-21,April,Germany,Munich,62,65+,Female,15,60,60,0,30,0,60,225
+372,2020-04-21,April,Germany,Munich,28,25-35,Male,20,60,60,15,40,0,60,255
+373,2020-04-21,April,Germany,Munich,36,35-45,Female,15,60,60,15,30,15,60,255
+374,2020-04-21,April,Germany,Munich,16,<18,Male,20,60,60,15,0,0,60,215
+375,2020-04-21,April,Germany,Munich,32,25-35,Male,15,60,60,15,0,15,60,225
+376,2020-04-20,April,Germany,Munich,31,25-35,Male,30,60,60,0,40,0,60,250
+377,2020-04-20,April,Germany,Munich,39,35-45,Female,60,60,60,0,0,30,20,230
+378,2020-04-20,April,Germany,Munich,25,18-25,Male,60,60,60,20,60,30,60,350
+379,2020-04-20,April,Germany,Munich,21,18-25,Male,60,60,60,30,0,0,60,270
+380,2020-04-21,April,Germany,Munich,32,25-35,Female,60,60,60,0,0,0,20,200
+381,2020-04-21,April,Germany,Munich,19,18-25,Female,60,60,50,30,50,15,60,325
+382,2020-04-21,April,Germany,Munich,37,35-45,Male,60,60,60,0,45,20,60,305
+383,2020-04-21,April,Germany,Munich,24,18-25,Female,30,60,60,0,60,15,60,285
+384,2020-04-21,April,Germany,Munich,39,35-45,Male,0,60,60,0,40,15,60,235
+385,2020-02-23,February,Germany,Munich,38,35-45,Female,20,60,60,20,30,0,60,250
+386,2020-02-23,February,Germany,Munich,33,25-35,Female,60,60,60,40,60,20,60,360
+387,2020-02-23,February,Germany,Munich,30,25-35,Female,20,60,60,15,60,15,60,290
+388,2020-02-25,February,Germany,Munich,50,45-55,Male,30,60,60,0,15,0,60,225
+389,2020-02-25,February,Germany,Munich,48,45-55,Female,20,60,15,15,30,20,45,205
+390,2020-02-24,February,Germany,Munich,42,35-45,Female,30,60,60,0,0,40,60,250
+391,2020-02-25,February,Germany,Munich,34,25-35,Female,60,60,60,0,15,15,60,270
+392,2020-02-25,February,Germany,Munich,16,<18,Female,20,60,60,0,30,20,60,250
+393,2020-02-25,February,Germany,Munich,18,<18,Male,60,60,60,0,20,20,60,280
+394,2020-02-25,February,Germany,Munich,37,35-45,Male,20,60,60,0,20,40,60,260
+395,2020-02-25,February,Germany,Munich,35,25-35,Male,60,60,60,20,60,20,60,340
+396,2020-02-25,February,Germany,Munich,51,45-55,Male,45,60,60,60,40,20,60,345
+397,2020-02-23,February,Germany,Munich,27,25-35,Male,45,60,60,15,15,15,60,270
+398,2020-03-30,March,Germany,Munich,35,25-35,Female,15,60,60,15,20,15,60,245
+399,2020-03-30,March,Germany,Munich,54,45-55,Male,60,60,60,60,60,0,60,360
+400,2020-03-31,March,Germany,Munich,34,25-35,Female,0,60,60,0,0,15,60,195
+</div>
+    </body>
+</html>
